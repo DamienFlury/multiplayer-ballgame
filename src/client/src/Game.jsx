@@ -1,37 +1,18 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import io from 'socket.io-client';
+import GameOver from './GameOver';
+import GameCanvas from './GameCanvas';
 
 const socket = io.connect('http://localhost:4100');
 
 const Game = () => {
-  const [gameObjects, setGameObjects] = useState([]);
+  const [gameOver, setGameOver] = useState(false);
 
-  const canvasRef = useRef(null);
-  socket.on('update', (objs) => {
-    setGameObjects(objs);
+  socket.on('gameOver', () => {
+    setGameOver(true);
   });
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#ffffff';
-    gameObjects.forEach(({ x, y, radius }) => {
-      ctx.beginPath();
-      ctx.ellipse(x + radius, y + radius, radius, radius, 0, 0, 360);
-      ctx.fill();
-      ctx.stroke();
-    });
-  }, [gameObjects]);
-
-  const handleClick = (event) => {
-    gameObjects.forEach((g) => {
-      console.log(event.clientX > g.x && event.clientX < g.x + 40 ? 'hit' : 'miss');
-    });
-    socket.emit('click', { x: event.clientX, y: event.clientY, currentState: gameObjects });
-  };
-
-  return <canvas ref={canvasRef} height="500" width="1000" style={{ backgroundColor: 'black' }} onClick={handleClick} />;
+  return gameOver ? <GameOver /> : <GameCanvas socket={socket} />;
 };
 
 export default Game;
