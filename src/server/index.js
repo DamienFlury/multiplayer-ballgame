@@ -12,12 +12,12 @@ io.on('connection', (socket) => {
   socket.on('click', ({ x, y, }) => {
     const next = gameObjects.filter(gameObj => !(gameObj.x < x && gameObj.x + gameObj.radius * 2 > x && gameObj.y < y && gameObj.y + gameObj.radius * 2 > y));
     gameObjects = next.length !== gameObjects.length ? next : [...next, {
-      x: 0,
-      y: 0,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
       radius: 40,
       velocity: {
         x: 2,
-        y: 0,
+        y: Math.random() * 10,
       }
     }]
   })
