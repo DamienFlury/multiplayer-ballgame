@@ -28,7 +28,7 @@ const GameCanvas = ({ socket }) => {
     socket.emit('click', { x: event.clientX - rect.left, y: event.clientY - rect.top, currentState: gameObjects });
   };
 
-  return <canvas ref={canvasRef} height="500" width="1000" style={{ backgroundColor: 'black' }} onClick={handleClick} />;
+  return <canvas ref={canvasRef} height="540" width="1000" style={{ backgroundColor: 'black' }} onClick={handleClick} />;
 };
 
 export default GameCanvas;
