@@ -8,7 +8,6 @@ app.use(express.static('public'));
 const io = socket(server);
 
 io.on('connection', (socket) => {
-  console.log('connected');
   socket.on('click', ({ x, y, }) => {
     const next = gameObjects.filter(gameObj => !(gameObj.x < x && gameObj.x + gameObj.radius * 2 > x && gameObj.y < y && gameObj.y + gameObj.radius * 2 > y));
     gameObjects = next.length !== gameObjects.length ? next : [...next, {

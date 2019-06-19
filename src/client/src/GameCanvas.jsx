@@ -24,7 +24,6 @@ const GameCanvas = ({ socket }) => {
 
   const handleClick = (event) => {
     const rect = canvasRef.current.getBoundingClientRect();
-    console.log(event.clientX - rect.left, event.clientY - rect.top, gameObjects);
     socket.emit('click', { x: event.clientX - rect.left, y: event.clientY - rect.top, currentState: gameObjects });
   };
 
