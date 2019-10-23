@@ -5,9 +5,15 @@ const GameCanvas = ({ socket }) => {
   const [gameObjects, setGameObjects] = useState([]);
 
   const canvasRef = useRef(null);
-  socket.on('update', (objs) => {
-    setGameObjects(objs);
-  });
+
+  useEffect(() => {
+    socket.on('update', (objs) => {
+      setGameObjects(objs);
+    });
+    return () => {
+      socket.off('update');
+    };
+  }, [socket]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
